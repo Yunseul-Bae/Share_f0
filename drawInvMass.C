@@ -36,14 +36,14 @@ void drawInvMass() {
 	// TH1D* hProjInvMassSub_InJet[nlpt][nmult][npt];
 
 	for (int i = 0 ; i < nlpt ; i++) { // 0, 1
-		hInvMassUS->GetAxis(4)->SetRangeUser( lpt_min[i], 1e4 );
-		hInvMassLSpp->GetAxis(4)->SetRangeUser( lpt_min[i], 1e4 );
-		hInvMassLSmm->GetAxis(4)->SetRangeUser( lpt_min[i], 1e4 );
+		// hInvMassUS->GetAxis(4)->SetRangeUser( lpt_min[i], 1e4 );
+		// hInvMassLSpp->GetAxis(4)->SetRangeUser( lpt_min[i], 1e4 );
+		// hInvMassLSmm->GetAxis(4)->SetRangeUser( lpt_min[i], 1e4 );
 		
 		for (int r = 0 ; r < nrt ; r++) { // 0, 1, 2
-			hInvMassUS->GetAxis(3)->SetRangeUser(r, r+0.99);
-			hInvMassLSpp->GetAxis(3)->SetRangeUser(r, r+0.99);
-			hInvMassLSmm->GetAxis(3)->SetRangeUser(r, r+0.99);
+			// hInvMassUS->GetAxis(3)->SetRangeUser(r, r+0.99);
+			// hInvMassLSpp->GetAxis(3)->SetRangeUser(r, r+0.99);
+			// hInvMassLSmm->GetAxis(3)->SetRangeUser(r, r+0.99);
 
 			for (int j = 0 ; j < nmult ; j++) { // 0, 1, 2, 3
 				hInvMassUS->GetAxis(2)->SetRangeUser( m_min[j], m_max[j]-0.001 );
@@ -129,7 +129,7 @@ void drawInvMass() {
 					latex.DrawLatexNDC(0.6, 0.60, line4Str.c_str());
 
 				}
-				TString fileName = Form("results_plot/all_%d_%d_mult_%d_%d.pdf", i, r, m_min[j], m_max[j]);
+				TString fileName = Form("results_plot/20240705_allhist_%d_%d_mult_%d_%d.pdf", i, r, m_min[j], m_max[j]);
 				c->SaveAs(fileName);
 				delete c;
 			}
