@@ -97,13 +97,13 @@ struct f0980analysis {
     std::vector<double> ptBinning = {0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.8,
                                      1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5,
                                      5.0, 6.0, 7.0, 8.0, 10.0, 13.0, 20.0};
-    // std::vector<double> lptBinning = {0, 5.0, 13.0, 20.0, 50.0, 1000.0};
+    std::vector<double> lptBinning = {0, 5.0, 13.0, 20.0, 50.0, 1000.0};
 
     AxisSpec centAxis = {22, 0, 110};
     AxisSpec ptAxis = {ptBinning};
     AxisSpec massAxis = {400, 0.2, 2.2};
-    // AxisSpec RTAxis = {3, 0, 3};
-    // AxisSpec LptAxis = {lptBinning}; // Minimum leading hadron pT selection
+    AxisSpec RTAxis = {3, 0, 3};
+    AxisSpec LptAxis = {lptBinning}; // Minimum leading hadron pT selection
 
     AxisSpec PIDqaAxis = {120, -6, 6};
     AxisSpec pTqaAxis = {200, 0, 20};
@@ -112,18 +112,12 @@ struct f0980analysis {
     AxisSpec EPqaAxis = {200, -constants::math::PI, constants::math::PI};
     AxisSpec EPresAxis = {200, -2, 2};
 
-    // histos.add("hInvMass_f0980_US", "unlike invariant mass",
-    //            {HistType::kTHnSparseF, {massAxis, ptAxis, centAxis, RTAxis, LptAxis}});
-    // histos.add("hInvMass_f0980_LSpp", "++ invariant mass",
-    //            {HistType::kTHnSparseF, {massAxis, ptAxis, centAxis, RTAxis, LptAxis}});
-    // histos.add("hInvMass_f0980_LSmm", "-- invariant mass",
-    //            {HistType::kTHnSparseF, {massAxis, ptAxis, centAxis, RTAxis, LptAxis}});
     histos.add("hInvMass_f0980_US", "unlike invariant mass",
-               {HistType::kTHnSparseF, {massAxis, ptAxis, centAxis}});
+               {HistType::kTHnSparseF, {massAxis, ptAxis, centAxis, RTAxis, LptAxis}});
     histos.add("hInvMass_f0980_LSpp", "++ invariant mass",
-               {HistType::kTHnSparseF, {massAxis, ptAxis, centAxis}});
+               {HistType::kTHnSparseF, {massAxis, ptAxis, centAxis, RTAxis, LptAxis}});
     histos.add("hInvMass_f0980_LSmm", "-- invariant mass",
-               {HistType::kTHnSparseF, {massAxis, ptAxis, centAxis}});
+               {HistType::kTHnSparseF, {massAxis, ptAxis, centAxis, RTAxis, LptAxis}});
 
     histos.add("hInvMass_f0980_US_EPA", "unlike invariant mass",
                {HistType::kTHnSparseF, {massAxis, ptAxis, centAxis, EPAxis}});
@@ -278,10 +272,8 @@ struct f0980analysis {
       }
 
       if (trk1.sign() * trk2.sign() < 0) {
-        // histos.fill(HIST("hInvMass_f0980_US"), Reco.M(), Reco.Pt(),
-        //             collision.cent(), RTIndex(Reco.Phi(), LHphi), LHpt);
         histos.fill(HIST("hInvMass_f0980_US"), Reco.M(), Reco.Pt(),
-                    collision.cent());
+                    collision.cent(), RTIndex(Reco.Phi(), LHphi), LHpt);
         histos.fill(HIST("hInvMass_f0980_US_EPA"), Reco.M(), Reco.Pt(),
                     collision.cent(), relPhi);
         if constexpr (IsMC) {
@@ -295,15 +287,13 @@ struct f0980analysis {
                       collision.cent());
         }
       } else if (trk1.sign() > 0 && trk2.sign() > 0) {
-        // histos.fill(HIST("hInvMass_f0980_LSpp"), Reco.M(), Reco.Pt(),
-        //             collision.cent(), RTIndex(Reco.Phi(), LHphi), LHpt);
         histos.fill(HIST("hInvMass_f0980_LSpp"), Reco.M(), Reco.Pt(),
-                    collision.cent());
+                    collision.cent(), RTIndex(Reco.Phi(), LHphi), LHpt);
         histos.fill(HIST("hInvMass_f0980_LSpp_EPA"), Reco.M(), Reco.Pt(),
                     collision.cent(), relPhi);
       } else if (trk1.sign() < 0 && trk2.sign() < 0) {
         histos.fill(HIST("hInvMass_f0980_LSmm"), Reco.M(), Reco.Pt(),
-                    collision.cent());
+                    collision.cent(), RTIndex(Reco.Phi(), LHphi), LHpt);
         histos.fill(HIST("hInvMass_f0980_LSmm_EPA"), Reco.M(), Reco.Pt(),
                     collision.cent(), relPhi);
       }
