@@ -73,7 +73,8 @@ double sfit (double *x, double* par) {
 }
 
 //Main fitting function
-void FitLP (int LP=0, int Rebinning=1) {
+// void FitLP (int LP=0, int Rebinning=1) {
+void FitLP () {
 	TFile* fin = new TFile("/Users/seul/seul_workspace/f0ana/data/ana_results/InvMassOut.root","read");
 
 	const int nmult = 7; //	4
@@ -205,9 +206,9 @@ void FitLP (int LP=0, int Rebinning=1) {
 			fitBin[i][j]->SetParLimits(4,f0MassMinRange,f0MassMaxRange);
 			fitBin[i][j]->SetParLimits(6,0.054,0.056);
 
-			if ( LP==0 ) {
-				fitBin[i][j]->SetParLimits(6, 0.01, 0.1);
-			}
+			// if ( LP==0 ) {
+			// 	fitBin[i][j]->SetParLimits(6, 0.01, 0.1);
+			// }
 			fitBin[i][j]->SetParLimits(7,f2MassMinRange,f2MassMaxRange);
 			fitBin[i][j]->SetParLimits(9,f2WMin,f2WMax);
 
@@ -242,9 +243,9 @@ void FitLP (int LP=0, int Rebinning=1) {
 			fitBin[i][j]->SetParLimits(8,f2AmpMin, f2AmpMax);
 			fitBin[i][j]->SetParLimits(11,rhoAmpMin, rhoAmpMax);
 
-			if ( Rebinning>1 ) {
-				hMassSig[i][j]->Rebin( Rebinning );
-			}
+			// if ( Rebinning>1 ) {
+			// 	hMassSig[i][j]->Rebin( Rebinning );
+			// }
 			if ( j>8 ) {
 				hMassSig[i][j]->Rebin( 2 );
 			}
@@ -353,7 +354,7 @@ void FitLP (int LP=0, int Rebinning=1) {
 				fitBin[i][j]->GetParameters(), fitResults[i][j]->GetCovarianceMatrix().GetMatrixArray(), 1e-6 );
 			Intgr_RawY_stat[i][j] /= hMassSig[i][j]->GetBinWidth(1);
 		}
-		TString fileName = Form("plot/Fit_%dLP/fitout_mult_%d_%d.pdf",LP, m_min[i], m_max[i]);
+		TString fileName = Form("plot/fitout_mult_%d_%d.pdf", m_min[i], m_max[i]);
 		c->SaveAs(fileName);
 		delete c;
 
@@ -371,7 +372,7 @@ void FitLP (int LP=0, int Rebinning=1) {
 	}
 	// }
 
-	TFile* fout = new TFile(Form("/Users/seul/seul_workspace/f0ana/data/ana_results/F0IntgrOut_%dLP.root",LP),"recreate");
+	TFile* fout = new TFile(Form("/Users/seul/seul_workspace/f0ana/data/ana_results/F0IntgrOut.root"),"recreate");
 	// for(int r=0;r<3;r++){
 	for (int i=0;i<nmult;i++) {
 		hPtStat[i]->Write();
@@ -380,6 +381,6 @@ void FitLP (int LP=0, int Rebinning=1) {
 }
 
 void Fit() {
- 	FitLP(0, 1);
+ 	FitLP();
  	// FitLP(1, 2);
 }
