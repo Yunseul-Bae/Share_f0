@@ -93,29 +93,17 @@ struct f0980analysis {
   Configurable<int> SelectType{"SelectType", 0, "PID selection type"};
 
   // Axis
-  // Configurable<float> cInvMassStart{"cInvMassStart", 0.2, "Invariant mass start"};
-  // Configurable<float> cInvMassEnd{"cInvMassEnd", 2.2, "Invariant mass end"};
-  // Configurable<int> cInvMassBins{"cInvMassBins", 400, "Invariant mass binning"};
   ConfigurableAxis massAxis{"massAxis", {400, 0.2, 2.2}, "Invariant mass axis"};
   ConfigurableAxis ptAxis{"ptAxis", {VARIABLE_WIDTH, 0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.8,
                                                         1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5,
                                                         5.0, 6.0, 7.0, 8.0, 10.0, 13.0, 20.0},"Transverse momentum Binning"};
-  ConfigurableAxis centAxis{"centAxis", {VARIABLE_WIDTH, 0.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 35.0,
+  ConfigurableAxis centAxis{"centAxis", {VARIABLE_WIDTH, 0.0, 1.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 35.0,
                                                             40.0,45.0, 50.0, 55.0, 60.0, 65.0, 70.0,
                                                             75.0, 80.0, 95.0, 100.0, 105.0, 110.0},"Centrality  Binning"};
   void init(o2::framework::InitContext&)
   {
-    // std::vector<double> ptBinning = {0.0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.8,
-    //                                  1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5,
-    //                                  5.0, 6.0, 7.0, 8.0, 10.0, 13.0, 20.0};
     std::vector<double> lptBinning = {0, 5.0, 13.0, 20.0, 50.0, 1000.0};
-    // std::vector<double> centBinning = {0.0, 5.0, 10.0, 15.0, 20.0, 25.0, 30.0, 35.0,
-    //                                    40.0,45.0, 50.0, 55.0, 60.0, 65.0, 70.0,
-    //                                    75.0, 80.0, 95.0, 100.0, 105.0, 110.0};
 
-    // AxisSpec centAxis = {centBinning};
-    // AxisSpec ptAxis = {ptBinning};
-    // AxisSpec massAxis = {cInvMassBins, cInvMassStart, cInvMassEnd};
     AxisSpec RTAxis = {3, 0, 3};
     AxisSpec LptAxis = {lptBinning}; // Minimum leading hadron pT selection
 
